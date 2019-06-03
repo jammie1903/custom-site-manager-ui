@@ -1,0 +1,1 @@
+export const setStateAsync = instance => newState => new Promise(resolve => instance.setState(newState, resolve))
