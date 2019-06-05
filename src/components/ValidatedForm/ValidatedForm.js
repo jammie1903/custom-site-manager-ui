@@ -46,10 +46,18 @@ export default class ValidatedForm extends Component {
    * @returns {Promise<{}>} a promise resolving to the returned json response
    */
   async ajaxSubmitForm () {
+    let data = this.state.formData
+    data = Object.keys(data)
+      .filter(key => !this.props.fields.find(f => f.name === key).transient)
+      .reduce((obj, key) => {
+        obj[key] = data[key]
+        return obj
+      }, {})
+
     const request = ApiService.request(
       this.props.action, 
       this.props.method || 'POST',
-      this.state.formData,
+      data,
       this.props.authenticationRequired
     )
 
@@ -70,38 +78,37 @@ export default class ValidatedForm extends Component {
       }
       json = {}
     }
-    this.handleResponse(success, json)
+    await this.handleResponse(success, json)
   }
 
   /**
    * Handles the response of the ajax request, showing messages and validation errors if returned and emitting an appropriate event
    * @param {Object} response the json response from the request
    */
-  handleResponse = (success, response) => {
-    this.setState({
+  handleResponse = async (success, response) => {
+    await setStateAsync(this)({
       submitting: false,
       success,
       responseMessage: response.message && (!response.errors || !Object.keys(response.errors).length) ? response.message : '',
       formErrors: response.errors || {}
-    }, () => {
-      if (success) {
-        if (typeof this.props.onSuccess === 'function') {
-          try {
-            this.props.onSuccess(response.data)
-          } catch (e) {
-            console.error(e)
-          }
-        }
-        if (this.props.clearOnSuccess) {
-          this.setState({
-            formData: this.props.fields.reduce((acc, field) => {
-              acc[field.name] = ''
-              return acc
-            }, {})
-          })
+    })
+    if (success) {
+      if (this.props.clearOnSuccess) {
+        await setStateAsync(this)({
+          formData: this.props.fields.reduce((acc, field) => {
+            acc[field.name] = ''
+            return acc
+          }, {})
+        })
+      }
+      if (typeof this.props.onSuccess === 'function') {
+        try {
+          this.props.onSuccess(response.data)
+        } catch (e) {
+          console.error(e)
         }
       }
-    })
+    }
   }
 
   handleInputChange (event) {
@@ -130,9 +137,13 @@ export default class ValidatedForm extends Component {
    */
   checkEqualTo (field) {
     if (field.equalTo && this.state.formData[field.name] !== this.state.formData[field.equalTo]) {
-      return `${field.displayName} does not match ${this.props.fields.find(f => f.name === field.equalTo).displayName}`
+      return this.getValidationMessage(field, 'notEqual', `${field.displayName} does not match ${this.props.fields.find(f => f.name === field.equalTo).displayName}`)
     }
     return null
+  }
+
+  getValidationMessage(field, name, defaultMessage) {
+    return (field.validationMessages && field.validationMessages[name]) || defaultMessage
   }
 
   validateField (field) {
@@ -144,10 +155,10 @@ export default class ValidatedForm extends Component {
     }
 
     if (input.validity.valueMissing) {
-      return `Please enter a ${field.displayName}`
+      return this.getValidationMessage(field, 'valueMissing', `Please enter a ${field.displayName}`)
     }
 
-    return `Please enter a valid ${field.displayName}`
+    return this.getValidationMessage(field, 'invalid', `Please enter a valid ${field.displayName}`)
   }
 
   renderField (field) {

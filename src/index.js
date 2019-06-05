@@ -4,11 +4,10 @@ import { Router } from 'react-router'
 import './index.css'
 import App from './App'
 import * as serviceWorker from './serviceWorker'
-import { ThemeProvider } from 'styled-components'
+import { ThemeProvider, createGlobalStyle } from 'styled-components'
 import {createBrowserHistory} from 'history'
 
 export const history = createBrowserHistory()
-
 
 const theme = {
   colors : {
@@ -48,8 +47,38 @@ const theme = {
   }
 }
 
+const GlobalStyle = createGlobalStyle`
+    @keyframes fadeout-outer {
+    0%  {opacity: 1;}
+    50%  {opacity: 1;}
+    /* 51%  {opacity: 0;} */
+    /* 99%  {opacity: 1;} */
+    100%  {opacity: 0;}
+  }
+
+  @keyframes fadeout-inner {
+    0%   {opacity: 1;}
+    50%  {opacity: 0;}
+    100%  {opacity: 0;}
+  }
+
+  @keyframes fadein-outer {
+    0%  {opacity: 0;}
+    50%  {opacity: 0;}
+    51%  {opacity: 1;}
+    100%  {opacity: 1;}
+  }
+
+  @keyframes fadein-inner {
+    0%   {opacity: 0;}
+    50%  {opacity: 0;}
+    100%  {opacity: 1;}
+  }
+`
+
 ReactDOM.render(
   <Router history={history}>
+    <GlobalStyle />
     <ThemeProvider theme={theme}>
       <App />
     </ThemeProvider>

@@ -1,4 +1,4 @@
-export {default as A} from './A'
+export * from './A'
 export * from './Headers'
 export {default as Panel} from './Panel'
 export {default as Input} from './Input'

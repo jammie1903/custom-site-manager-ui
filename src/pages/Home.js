@@ -3,8 +3,8 @@ import { Redirect } from 'react-router-dom'
 import UserService from '../services/UserService'
 import { H1, H2 } from '../components/base'
 
-export default () => {
-  if (!UserService.isLoggedIn) {
+export default ({history}) => {
+  if (!UserService.isLoggedIn && history.location.pathname !== '/login') {
     return <Redirect to="/login" />
   }
   return (
@@ -14,3 +14,4 @@ export default () => {
       </div>
   );
 }
+

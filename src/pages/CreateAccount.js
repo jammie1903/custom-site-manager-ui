@@ -21,7 +21,7 @@ const Background = styled.div`
   align-items: center;
   justify-content: center;
   min-height: min-content;
-  
+
   &.fade-enter.fade-enter-active {
     ${animation('fadein-outer')}
     ${Panel} {
@@ -36,7 +36,7 @@ const Background = styled.div`
     }
   }
 
-  &.fade-exit-done.fade-exit-done {
+  &.fade-exit-done {
     display: none;
   }
 `
@@ -46,37 +46,45 @@ const LinkSection = styled.span`
   display: inline-block;
 `
 
-export default class Login extends Component{
+export default class CreateAccount extends Component{
   constructor(props) {
     super(props)
     this.state = {loggedIn: UserService.isLoggedIn}
   }
 
-  onLogin = ({token}) => {
+  onCreate = ({token}) => {
     UserService.token = token
     this.setState({loggedIn: UserService.isLoggedIn})
   }
 
   render() {
-    if (this.state.loggedIn && this.props.history.location.pathname === '/login') {
+    if (this.state.loggedIn && this.props.history.location.pathname === '/create-account') {
       return <Redirect to="/" />
     }
 
     return (
     <Background>
       <Panel size='m'>
-        <H3>Sign in to continue</H3>
+        <H3>Create an Account</H3>
         <ValidatedForm
           method='POST'
-          action={'user/login'}
+          action={'user'}
           authenticationRequired={false}
-          onSuccess={this.onLogin}
+          onSuccess={this.onCreate}
           fields={[
+            {name: 'firstName', displayName: 'First Name', required: true},
+            {name: 'lastName', displayName: 'Last Name', required: true},
             {name: 'email', displayName: 'Email Address', type: 'email', required: true},
-            {name: 'password', displayName: 'Password', type: 'password', required: true}
+            {name: 'password', displayName: 'Password', type: 'password', required: true},
+            {name: 'confirmPassword', displayName: 'Confirm Password', type: 'password', required: true,
+              equalTo: 'password', transient: true, validationMessages: {
+                valueMissing: 'Please confirm your password', 
+                notEqual: 'The passwords do not match'
+              }
+            }
           ]}>
         </ValidatedForm>
-        <LinkSection>New here? <Link to="/create-account">create an account</Link></LinkSection>
+        <LinkSection>Already have an account? <Link to="/login">login</Link></LinkSection>
       </Panel>
     </Background>
     )

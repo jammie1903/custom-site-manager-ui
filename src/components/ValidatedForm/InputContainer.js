@@ -3,7 +3,6 @@ import styled from 'styled-components'
 
 const InputContainer = styled.div`
   text-align: left;
-
 `
 
 const Label = styled.label`
