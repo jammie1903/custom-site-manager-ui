@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import Panel from './Panel'
 
 export default styled.div`
-  background: ${props=> console.log(props) || props.theme.colors.background[props.colorful ? 'colorful' : props.dark ? 'dark' : 'light']};
+  background: ${props=> props.theme.colors.background[props.colorful ? 'colorful' : props.dark ? 'dark' : 'light']};
   position: absolute;
   top: 0;
   left: 0;
