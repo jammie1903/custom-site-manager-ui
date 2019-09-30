@@ -3,7 +3,14 @@ import jwtDecode from 'jwt-decode'
 export class UserService {
   constructor() {
     this._token = this.token
-    this._userDetails = this._token ? jwtDecode(this._token) : null
+
+    try {
+      this._userDetails = this._token ? jwtDecode(this._token) : null
+    } catch(e) {
+      console.error(e)
+      this._token = null
+      localStorage.removeItem('token')
+    }
   }
 
   get token() {
@@ -12,8 +19,14 @@ export class UserService {
 
   set token(token) { 
     this._token = token
-    localStorage.setItem('token', token)
-    this._userDetails = token ? jwtDecode(token) : null
+    try {
+      this._userDetails = token ? jwtDecode(token) : null
+      localStorage.setItem('token', token)
+    } catch(e) {
+      console.error(e)
+      this._userDetails = null
+      localStorage.removeItem('token')
+    }
     console.log(this._userDetails)
   }
 

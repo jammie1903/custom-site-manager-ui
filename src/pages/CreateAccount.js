@@ -1,45 +1,9 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import { Redirect } from 'react-router-dom'
-import { H3, Panel, Link } from '../components/base'
+import { H3, Panel, Link, Background } from '../components/base'
 import ValidatedForm from '../components/ValidatedForm'
 import UserService from '../services/UserService'
-import { animation } from '../utils/css'
-
-const Background = styled.div`
-  background: ${props=> props.theme.colors.background.colorful};
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 100%;
-  width: 100%;
-  overflow: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: min-content;
-
-  &.fade-enter.fade-enter-active {
-    ${animation('fadein-outer')}
-    ${Panel} {
-      ${animation('fadein-inner')}
-    }
-  }
-
-  &.fade-exit.fade-exit-active {
-    ${animation('fadeout-outer')}
-    ${Panel} {
-      ${animation('fadeout-inner')}
-    }
-  }
-
-  &.fade-exit-done {
-    display: none;
-  }
-`
 
 const LinkSection = styled.span`
   margin-top: 8px;
@@ -63,7 +27,7 @@ export default class CreateAccount extends Component{
     }
 
     return (
-    <Background>
+    <Background colorful>
       <Panel size='m'>
         <H3>Create an Account</H3>
         <ValidatedForm
