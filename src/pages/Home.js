@@ -1,8 +1,8 @@
 import React from 'react'
 import { Redirect } from 'react-router-dom'
 import UserService from '../services/UserService'
-import { H1, H2 } from '../components/base'
-import { UI } from '../components/Layout';
+import { UI } from '../components/Layout'
+import Projects from '../components/Projects'
 
 export default ({history}) => {
   if (!UserService.isLoggedIn && history.location.pathname !== '/login') {
@@ -10,8 +10,7 @@ export default ({history}) => {
   }
   return (
       <UI>
-        <H1>Home</H1>
-        <H2>Stuff will appear here</H2>
+        <Projects />
       </UI>
   );
 }

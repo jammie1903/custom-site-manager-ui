@@ -27,7 +27,7 @@ export default class Login extends Component{
     }
 
     return (
-    <Background colorful>
+    <Background centerContent colorful>
       <Panel size='m'>
         <H3>Sign in to continue</H3>
         <ValidatedForm

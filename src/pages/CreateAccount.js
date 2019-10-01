@@ -27,7 +27,7 @@ export default class CreateAccount extends Component{
     }
 
     return (
-    <Background colorful>
+    <Background centerContent colorful>
       <Panel size='m'>
         <H3>Create an Account</H3>
         <ValidatedForm

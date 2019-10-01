@@ -1,12 +1,12 @@
-import React from 'react';
+import React from 'react'
 import styled from 'styled-components'
-import { H1 } from '../base';
+import { H1 } from '../base'
 
 const Container = styled.div`
   width: 100%;
   height: 60px;
   text-align: left;
-  padding: 0 ${props => props.theme.step * 4}px;
+  padding: 0 ${props => props.theme.step * 8}px;
   border-bottom: 1px solid ${props => props.theme.colors.border.dark};
   background: ${props=> props.theme.colors.background.colorful};
 `

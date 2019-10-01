@@ -1,36 +1,74 @@
+import React from 'react'
 import styled, {css} from 'styled-components'
+import { H1, H2, H3 } from './Headers'
+
+const Content = styled.div``
+const HeaderContentWrapper = styled.div`
+  float: right;
+`
 
 const xl = props => css`
-  padding: ${props => props.theme.step * 4}px;
   margin: ${props => props.theme.step * 4}px;
   width: ${props => props.theme.breakpoints.xl - props.theme.step * 8}px;
+  ${Content} {
+    padding: ${props => props.theme.step * 4}px;
+  }
+
+  > ${H1}:first-child, > ${H2}:first-child, > ${H3}:first-child {
+    padding: ${props => props.theme.step * 4}px;
+  }
 `
 
 const l = props => css`
-  padding: ${props => props.theme.step * 4}px;
   margin: ${props => props.theme.step * 4}px;
   width: ${props => props.theme.breakpoints.l - props.theme.step * 8}px;
+  ${Content} {
+    padding: ${props => props.theme.step * 4}px;
+  }
+
+  > ${H1}:first-child, > ${H2}:first-child, > ${H3}:first-child {
+    padding: ${props => props.theme.step * 4}px;
+  }
 `
 
 const m = props => css`
-  padding: ${props => props.theme.step * 3}px;
   margin: ${props => props.theme.step * 3}px;
   width: ${props => props.theme.breakpoints.m - props.theme.step * 6}px;
+  ${Content} {
+    padding: ${props => props.theme.step * 3}px;
+  }
+
+  > ${H1}:first-child, > ${H2}:first-child, > ${H3}:first-child {
+    padding: ${props => props.theme.step * 3}px;
+  }
 `
 
 const s = props => css`
-  padding: ${props => props.theme.step * 2}px;
   margin: ${props => props.theme.step * 2}px;
   width: ${props => props.theme.breakpoints.s - props.theme.step * 4}px;
+  ${Content} {
+    padding: ${props => props.theme.step * 2}px;
+  }
+
+  > ${H1}:first-child, > ${H2}:first-child, > ${H3}:first-child {
+    padding: ${props => props.theme.step * 2}px;
+  }
 `
 
 const xs = props => css`
-  padding: ${props => props.theme.step * 2}px;
   margin: ${props => props.theme.step * 2}px;
   width: calc(100% - ${props => props.theme.step * 4}px);
+  ${Content} {
+    padding: ${props => props.theme.step * 2}px;
+  }
+
+  > ${H1}:first-child, > ${H2}:first-child, > ${H3}:first-child {
+    padding: ${props => props.theme.step * 2}px;
+  }
 `
 
 const breakpointCss = [xl, l, m, s, xs]
+
 const breakpoints = ['xl', 'l', 'm', 's', 'xs']
 
 const breakpoint = (bp) => props => {
@@ -54,7 +92,19 @@ const breakpoint = (bp) => props => {
   return ''
 }
 
-export default styled.div`
+const Panel = props => {
+  let {title, headerContent, h1, h2, children} = props
+  const HeaderType = h1 ? H1 : h2 ? H2 : H3
+  headerContent = headerContent ? <HeaderContentWrapper>{headerContent}</HeaderContentWrapper> : ''
+  return (
+    <div className={props.className}>
+      {(!!title || !!headerContent) && <HeaderType light>{title}{headerContent}</HeaderType>}
+      <Content>{children}</Content>
+    </div>
+  )
+}
+
+export default styled(Panel)`
   text-align: left;
   background: ${props => props.theme.colors.background.light};
   border: 2px solid ${props => props.theme.colors.border.dark};
@@ -66,4 +116,8 @@ export default styled.div`
   ${breakpoint('m')}
   ${breakpoint('s')}
   ${breakpoint('xs')}
+
+  > ${H1}:first-child, > ${H2}:first-child, > ${H3}:first-child {
+    background: ${props => props.theme.colors.background.colorful};
+  }
 `
