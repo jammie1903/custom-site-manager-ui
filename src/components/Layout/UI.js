@@ -15,22 +15,25 @@ const UI = styled.div`
   overflow: auto;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  align-items: left;
+  justify-content: left;
+  text-align: left;
   min-height: min-content;
 `
 
-const BackgroundContainer = styled.div`
+const Content = styled.div`
   position: relative;
   flex-grow: 1;
   width: 100%;
+  overflow: auto;
+  position: relative;
 `
 
 export default props => (
   <UI>
     <HeaderPane />
-    <BackgroundContainer>
-      <Background>{props.children}</Background>
-    </BackgroundContainer>
+    <Content>
+      {props.children}
+    </Content>
   </UI>
 );

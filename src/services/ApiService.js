@@ -1,6 +1,6 @@
 import UserService from './UserService'
 
-const root = process.env.REACT_APP_LOCAL ? 'http://localhost:3001/' : 'https://custom-site-manager-api.herokuapp.com/'
+const root = process.env.REACT_APP_LOCAL === 'true' ? 'http://localhost:3001/' : 'https://custom-site-manager-api.herokuapp.com/'
 
 export class ApiService {
   request(url, method, body = null, authenticationRequired = true) {

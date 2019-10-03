@@ -36,7 +36,7 @@ const theme = {
     tiny: 200,
     short: 300,
     medium: 500,
-    large: 1000
+    large: 800
   },
   breakpoints: {
     s: 320,
@@ -48,11 +48,9 @@ const theme = {
 }
 
 const GlobalStyle = createGlobalStyle`
-    @keyframes fadeout-outer {
+  @keyframes fadeout-outer {
     0%  {opacity: 1;}
     50%  {opacity: 1;}
-    /* 51%  {opacity: 0;} */
-    /* 99%  {opacity: 1;} */
     100%  {opacity: 0;}
   }
 

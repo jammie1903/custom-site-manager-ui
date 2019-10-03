@@ -1,9 +1,10 @@
 import { animation } from '../../utils/css'
 import styled from 'styled-components'
 import Panel from './Panel'
+import Section from './Section';
 
 export default styled.div`
-  background: ${props => props.theme.colors.background[props.colorful ? 'colorful' : props.dark ? 'dark' : 'light']};
+  background: ${props => console.log(props) || props.theme.colors.background[props.colorful ? 'colorful' : props.dark ? 'dark' : 'light']};
   position: absolute;
   padding: ${props => props.theme.step * 4}px ${props => props.theme.step * 8}px;
   top: 0;
@@ -22,14 +23,15 @@ export default styled.div`
 
   &.fade-enter.fade-enter-active {
     ${animation('fadein-outer')}
-    ${Panel} {
+    ${Panel}, ${Section} {
       ${animation('fadein-inner')}
     }
   }
 
   &.fade-exit.fade-exit-active {
+    pointer-events: none;
     ${animation('fadeout-outer')}
-    ${Panel} {
+    ${Panel}, ${Section} {
       ${animation('fadeout-inner')}
     }
   }
