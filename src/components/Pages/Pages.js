@@ -3,13 +3,16 @@ import { Background, Section } from '../base'
 import ProjectService from '../../services/ProjectService'
 import styled from 'styled-components'
 import PageTree from './PageTree'
+import Page from './Page';
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
+  flex-grow: 1;
+  width: 100%;
 `
 
-export default ({match}) => {
+export default ({match, location}) => {
   const projectId = match.params.projectId
   const pageId = match.params.pageId
   const [project, setProject] = useState(null)
@@ -24,18 +27,10 @@ export default ({match}) => {
     })
   }, [projectId]);
 
-
-  // if(!project) return <Background unpadded>
-  //   <Section>
-  //   </Section>
-  // </Background>
-
   return <Background unpadded>
     <Wrapper>
       <PageTree pages={pages} projectId={projectId}/>
-      <Section>
-        {pageId}
-      </Section>
+      {!!pageId && <Page pageId={pageId}/>}
     </Wrapper>
   </Background>
 }

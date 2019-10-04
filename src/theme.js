@@ -17,6 +17,7 @@ export default {
     },
     border: {
       dark: '#4f4046',
+      mid: '#dbcfbd',
       light: '#fffdfa'
     },
     status: {
