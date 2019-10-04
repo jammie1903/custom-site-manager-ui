@@ -1,8 +1,6 @@
 import React from "react";
 import styled from 'styled-components'
-import HeaderPane from "./HeaderPane";
-import { Background } from "../base";
-
+import HeaderPane from "./HeaderPane"
 
 const UI = styled.div`
   position: absolute;

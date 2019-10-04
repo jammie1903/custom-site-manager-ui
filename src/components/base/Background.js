@@ -1,12 +1,16 @@
 import { animation } from '../../utils/css'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import Panel from './Panel'
 import Section from './Section';
 
 export default styled.div`
-  background: ${props => console.log(props) || props.theme.colors.background[props.colorful ? 'colorful' : props.dark ? 'dark' : 'light']};
+  background: ${props => props.theme.colors.background[props.colorful ? 'colorful' : props.dark ? 'dark' : 'light']};
   position: absolute;
-  padding: ${props => props.theme.step * 4}px ${props => props.theme.step * 8}px;
+
+  ${props => props.unpadded ? '' : css`
+    padding: ${props.theme.step * 4}px ${props.theme.step * 8}px;
+  `}
+
   top: 0;
   left: 0;
   right: 0;

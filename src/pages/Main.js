@@ -4,18 +4,10 @@ import { TransitionGroup, CSSTransition } from 'react-transition-group'
 import { Redirect } from 'react-router-dom'
 import UserService from '../services/UserService'
 import { UI } from '../components/Layout'
-import Projects from '../components/Projects'
+import {Projects, Project} from '../components/Projects'
 import styled from 'styled-components'
 import NotFound from './NotFound'
-import { Section, Background } from '../components/base'
-
-const Project = () => (
-  <Background>
-    <Section>
-      <h1>PROJECT</h1>
-    </Section>
-  </Background>
-)
+import {Pages} from '../components/Pages'
 
 const Content = styled(TransitionGroup)`
   height: 100%;
@@ -60,7 +52,8 @@ export default class Home extends Component {
             >
               <Switch location={location}>
                 <Route path='/' exact component={Projects}/>
-                <Route path='/project/:projectId' component={Project}/>
+                <Route path='/project/:projectId' exact component={Project}/>
+                <Route path='/project/:projectId/pages/:pageId?' component={Pages}/>
                 <Route component={NotFound} />
               </Switch>
             </CSSTransition>

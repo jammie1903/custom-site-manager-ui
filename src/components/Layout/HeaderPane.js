@@ -4,7 +4,7 @@ import { H1 } from '../base'
 
 const Container = styled.div`
   width: 100%;
-  height: 60px;
+  height: 50px;
   text-align: left;
   padding: 0 ${props => props.theme.step * 8}px;
   border-bottom: 1px solid ${props => props.theme.colors.border.dark};
