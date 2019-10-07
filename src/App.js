@@ -1,10 +1,10 @@
-import React, { Component } from 'react'
+import React from 'react'
 import styled from 'styled-components'
-import { Switch, Route } from 'react-router'
-import { TransitionGroup, CSSTransition } from 'react-transition-group'
+import { TransitionGroup } from 'react-transition-group'
 import Login from './pages/Login'
 import CreateAccount from './pages/CreateAccount'
 import Main from './pages/Main'
+import TransitionLayer from './components/base/TransitionLayer'
 
 const Content = styled(TransitionGroup)`
   display: flex;
@@ -18,63 +18,10 @@ const Content = styled(TransitionGroup)`
   overflow: auto;
 `;
 
-const highLevelRoutes = [
+const routes = [
   { path: '/login', component: Login },
-  { path: '/create-account', component: CreateAccount }
+  { path: '/create-account', component: CreateAccount},
+  { path: '/', component: Main }
 ];
 
-const highLevelRoutePaths = highLevelRoutes.map(r => r.path);
-console.log(highLevelRoutePaths);
-class App extends Component {
-  constructor(props) {
-    super(props)
-    this.state = { allowTransitions: false }
-  }
-
-  componentDidMount() {
-    setTimeout(() => this.setState({ allowTransitions: true }))
-  }
-
-  locationKey(location) {
-    const key =
-      highLevelRoutePaths.indexOf(location.pathname) !== -1
-        ? location.key
-        : 'app'
-
-    if (!this.state.allowTransitions) {
-      this.lastKey = key
-      return null
-    }
-    if (this.lastKey === key) {
-      return null
-    }
-    return key
-  }
-
-  render() {
-    return (
-      <Route render={({ location }) => (
-          // <Background>
-            <Content>
-              <CSSTransition
-                key={this.locationKey(location)}
-                classNames='fade'
-                timeout={this.state.allowTransitions ? 800 : 0}
-                unmountOnExit
-              >
-                <Switch location={location}>
-                  {highLevelRoutes.map(r => (
-                    <Route key={r.path} path={r.path} component={r.component} />
-                  ))}
-                  <Route path='/' component={Main} />
-                </Switch>
-              </CSSTransition>
-            </Content>
-          // </Background>
-        )}
-      />
-    )
-  }
-}
-
-export default App
+export default () => <TransitionLayer transitionGroupComponent={Content} routes={routes}></TransitionLayer>
