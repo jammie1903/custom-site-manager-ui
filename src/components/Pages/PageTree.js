@@ -1,4 +1,5 @@
 import React from 'react'
+import { withRouter } from 'react-router'
 import styled from 'styled-components'
 import { Link } from '../base'
 
@@ -10,20 +11,20 @@ const PageTree = styled.div`
   border-right: 1px solid ${props => props.theme.colors.border.mid};
 `
 
-const subtree = (pages, projectId) => (
+const subtree = (pages, projectId, location) => (
   <ul>
     {(pages || []).map(page => (
       <li key={page.id}>
-        <Link to={`/project/${projectId}/pages/${page.id}`}>{page.name}</Link>
-        {subtree(page.children, projectId)}
+        <Link to={`/project/${projectId}/pages/${page.id}${location.search}`}>{page.name}</Link>
+        {subtree(page.children, projectId, location)}
       </li>
     ))}
   </ul>
 )
 
 
-export default ({pages, projectId}) => (
+export default withRouter(({pages, projectId, location}) => (
   <PageTree>
-    {subtree(pages, projectId)}
+    {subtree(pages, projectId, location)}
   </PageTree>
-)
+))

@@ -27,7 +27,6 @@ export class UserService {
       this._userDetails = null
       localStorage.removeItem('token')
     }
-    console.log(this._userDetails)
   }
 
   get userDetails () {

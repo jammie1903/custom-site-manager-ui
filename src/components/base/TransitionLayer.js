@@ -2,9 +2,11 @@ import React, {Component} from 'react'
 import { Route, Switch} from 'react-router'
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
 
-const getRoute = (path, routes) => {
+const getRoute = (location, routes) => {
+  const path = location.pathname
+  if(!routes) return path
   const segments = path.split('/')
-  return routes.filter(r => {
+  const route = routes.filter(r => {
     if(!r.path) return false
     const routeSegments = r.path.split('/')
     if((r.exact && routeSegments.length !== segments.length) || routeSegments.length > segments.length) {
@@ -16,7 +18,7 @@ const getRoute = (path, routes) => {
     }
     return true
   })[0] || {path}
-  .path
+  return route.path
 }
 
 export default class TransitionLayer extends Component {
@@ -27,7 +29,7 @@ export default class TransitionLayer extends Component {
   }
 
   locationKey(location) {
-    const key = getRoute(location.pathname, this.props.routes)
+    const key = getRoute(location, this.props.routes)
     if(!this.state.allowTransitions) {
       this.lastKey = key
       return null
@@ -39,7 +41,7 @@ export default class TransitionLayer extends Component {
   }
   
   render() {
-    const {routes, classNames = 'fade', transitionGroupComponent = TransitionGroup} = this.props
+    const {routes, classNames = 'fade', transitionGroupComponent = TransitionGroup, children} = this.props
     const Content = transitionGroupComponent
     return <Route render={({location}) => (
       <Content>
@@ -50,9 +52,9 @@ export default class TransitionLayer extends Component {
           unmountOnExit
         >
           <Switch location={location}>
-            {routes.map(r => (
+            {routes ? routes.map(r => (
               <Route key={r.path || 'n/a'} path={r.path} exact={r.exact} component={r.component} />
-            ))}
+            )) : children}
           </Switch>
         </CSSTransition>
       </Content>

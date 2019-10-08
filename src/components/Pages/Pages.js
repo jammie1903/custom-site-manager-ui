@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import { Background, Section } from '../base'
+import { Background } from '../base'
 import ProjectService from '../../services/ProjectService'
 import styled from 'styled-components'
 import PageTree from './PageTree'

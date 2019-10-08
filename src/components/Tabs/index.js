@@ -1,7 +1,8 @@
 import React from 'react'
-import {withRouter, Redirect} from 'react-router'
+import { withRouter } from 'react-router'
+import { CSSTransition } from 'react-transition-group'
 import qs from 'qs'
-import { Link } from '../base'
+import { Link, Section, Background } from '../base'
 import styled from 'styled-components'
 
 const TabGroup = React.createContext({tabGroupName: 'tab', defaultTab: ''})
@@ -30,20 +31,41 @@ export const Tab = withRouter(({children, id, location}) => {
 
 
 export const TabContent = withRouter(({children, id, location}) => {
-  const tab = qs.parse(location.search, { ignoreQueryPrefix: true }).tab
   return <TabGroup.Consumer>
-    {({tabGroupName, defaultTab}) => <div hidden={!((defaultTab === id && !tab) || id === tab)}>{children}</div>}
+    {({tabGroupName, defaultTab}) => {
+      const tab = qs.parse(location.search, { ignoreQueryPrefix: true })[tabGroupName]
+      return (
+        <CSSTransition
+          in={(defaultTab === id && !tab) || id === tab}
+          timeout={800}
+          classNames="fade"
+          unmountOnExit
+        >
+          <Background>
+            <Section>
+              {children}
+            </Section>
+          </Background>
+        </CSSTransition>
+      )
+    }}
   </TabGroup.Consumer>
 })
 
 export const TabList = styled.div`
   max-width: 100%;
   width: 100%;
-  margin: 0 0 16px;
   overflow-x: auto;
   display: flex;
   border: 1px solid #d7d7d7;
   background: #eef0f3;
+`
+
+export const TabContentContainer = styled.div`
+  flex-grow: 1;
+  width: 100%;
+  overflow: auto;
+  position: relative;
 `
 
 const TabPaneContainer = styled.div`
