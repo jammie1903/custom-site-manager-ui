@@ -7,7 +7,8 @@ export default {
       colorful: 'linear-gradient(to right top, #5b3444, #8b4b54, #b8685a, #dc8c5c, #f3b75d)',
       light: '#fffdfa',
       dark: '#4f4046',
-      white: '#ffffff'
+      white: '#ffffff',
+      gray: '#eef0f3'
     },
     text: {
       light: '#fffdfa',

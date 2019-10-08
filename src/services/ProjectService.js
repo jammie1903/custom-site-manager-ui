@@ -105,6 +105,17 @@ class ProjectService {
       {id: '245f32739', name: 'Home'}
     ];
   }
+
+  async getPageData(id) {
+    return {
+      template: 'default',
+      fields: {
+        title: 'Article ' + id,
+        summary: '{{title}} blah blah blah blah',
+        date: new Date()
+      }
+    }
+  }
 }
 
 

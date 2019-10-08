@@ -57,8 +57,8 @@ export const TabList = styled.div`
   width: 100%;
   overflow-x: auto;
   display: flex;
-  border: 1px solid #d7d7d7;
-  background: #eef0f3;
+  border-bottom: 1px solid ${props => props.theme.colors.border.mid};
+  background: ${props => props.theme.colors.background.gray};
 `
 
 export const TabContentContainer = styled.div`
