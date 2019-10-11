@@ -6,6 +6,7 @@ import { Header } from '../components/base'
 const EditorInput = styled.input`
   display: block;
   width: 100%;
+  color: inherit;
   font-family: inherit;
   font-size: inherit;
   line-height: inherit;
@@ -13,6 +14,8 @@ const EditorInput = styled.input`
   text-decoration: inherit;
   background: transparent;
   border: 1px solid transparent;
+  margin: -1px;
+  padding: 0;
   transition: border ${props => props.theme.animationLengths.short}ms;
 
   &:hover {
@@ -33,9 +36,9 @@ export default ({data}) => {
   }
 
   return <EditingContext.Consumer>
-    {editMode => (
+    {({editing, fields}) => (
       <Header type={data.properties.type}>
-        {editMode ? <Editor onPropertyUpdated={onPropertyUpdated} {...data.properties}/> : data.properties.text}
+        {editing ? <Editor onPropertyUpdated={onPropertyUpdated} {...data.properties}/> : fields(data.properties.text)}
       </Header>
     )}
   </EditingContext.Consumer>

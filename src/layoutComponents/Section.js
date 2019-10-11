@@ -22,6 +22,6 @@ export default ({data}) => {
   }
 
   return <EditingContext.Consumer>
-    {editMode => editMode ? <Editor onPropertyUpdated={onPropertyUpdated} childItems={children}/> : <Container>{children}</Container>}
+    {({editing}) => editing ? <Editor onPropertyUpdated={onPropertyUpdated} childItems={children}/> : <Container>{children}</Container>}
   </EditingContext.Consumer>
 }

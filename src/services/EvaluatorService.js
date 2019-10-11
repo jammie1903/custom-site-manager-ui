@@ -23,7 +23,16 @@ class Evaluator {
   }
 }
 
+const placeholder = evaluate({})
+
 function evaluate(fields) {
+
+  let container
+  container = function(rawValue) { 
+    return evaluateField(container, null, rawValue)
+  }
+
+  console.log('evaluate', fields)
   return Object.keys(fields).reduce((acc, k) => {
     const evaluator = new Evaluator(acc, k, fields[k])
     Object.defineProperty(acc, k, {
@@ -31,9 +40,9 @@ function evaluate(fields) {
       enumerable: true
     })
     return acc
-  }, {})
+  }, container)
 }
 
 export default {
-  evaluate
+  evaluate, placeholder
 }

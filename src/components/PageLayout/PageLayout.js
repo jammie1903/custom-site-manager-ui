@@ -7,8 +7,8 @@ const Container = styled.div`
   width: 100%;
 `
 
-export default ({layout, previewMode}) => (
-  <EditingContext.Provider value={!previewMode}>
+export default ({layout, fields, previewMode}) => (
+  <EditingContext.Provider value={{editing: !previewMode, fields}}>
     <Container>
       {mapChildren(layout)}
     </Container>

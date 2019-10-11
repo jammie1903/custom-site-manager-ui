@@ -5,10 +5,16 @@ import EditingContext from './EditingContext'
 const EditorInput = styled.input`
   display: block;
   width: 100%;
+  color: inherit;
+  font-family: inherit;
   font-size: inherit;
   line-height: inherit;
+  font-weight: inherit;
+  text-decoration: inherit;
   background: transparent;
   border: 1px solid transparent;
+  margin: -1px;
+  padding: 0;
   transition: border ${props => props.theme.animationLengths.short}ms;
 
   &:hover {
@@ -31,6 +37,6 @@ export default ({data}) => {
   }
 
   return <EditingContext.Consumer>
-    {editMode => editMode ? <Editor onPropertyUpdated={onPropertyUpdated} {...data.properties}/> : <p>{data.properties.text}</p>}
+    {({editing}) => editing ? <Editor onPropertyUpdated={onPropertyUpdated} {...data.properties}/> : <p>{data.properties.text}</p>}
   </EditingContext.Consumer>
 }
