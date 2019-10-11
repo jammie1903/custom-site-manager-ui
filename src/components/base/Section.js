@@ -1,7 +1,9 @@
 import styled from 'styled-components'
-import { animation } from '../../utils/css';
+import { animation } from '../../utils/css'
 import Panel from './Panel';
 export default styled.div`
+  width: 100%;
+
   &.fade-enter.fade-enter-active {
     ${animation('fadein-outer')}
     ${Panel}, & {

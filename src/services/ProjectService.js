@@ -113,7 +113,13 @@ class ProjectService {
         title: 'Article ' + id,
         summary: '{{title}} blah blah blah blah',
         date: new Date()
-      }
+      },
+      layout: [
+        {type: 'Section', properties: { children: [
+          {type: 'Header', properties: {type: 'H2', text: '{{title}}'}},
+          {type: 'Text', properties: {text: 'this is some text'}}
+        ]}}
+      ]
     }
   }
 }

@@ -5,7 +5,7 @@ import { Link } from '../base'
 
 const PageTree = styled.div`
   height: 100%;
-  background: ${props => props.theme.colors.background.white};
+  background: ${props => props.theme.colors.background.light};
   padding: 0 ${props => props.theme.step * 8}px 0 0;
   overflow: auto;
   border-right: 1px solid ${props => props.theme.colors.border.mid};

@@ -41,7 +41,7 @@ export const TabContent = withRouter(({children, id, location}) => {
           classNames="fade"
           unmountOnExit
         >
-          <Background>
+          <Background unpadded transparent>
             <Section>
               {children}
             </Section>

@@ -7,6 +7,7 @@ import { TransitionGroup } from 'react-transition-group'
 import styled from 'styled-components'
 import { Background } from '../base';
 import FieldsTab from './FieldsTab';
+import LayoutTab from './LayoutTab';
 
 const Content = styled(TransitionGroup)`
   flex-grow: 1;
@@ -23,10 +24,10 @@ export default ({pageId}) => (
       <Tab id='layout'>Layout</Tab>
     </TabList>
     <TransitionLayer transitionGroupComponent={Content}>
-      <Background unpadded>
+      <Background unpadded white>
         <TabContentContainer>
           <TabContent id='fields'><FieldsTab pageId={pageId} /></TabContent>
-          <TabContent id='layout'>This is the layout page for page {pageId}</TabContent>
+          <TabContent id='layout'><LayoutTab pageId={pageId} /></TabContent>
         </TabContentContainer>
       </Background>
     </TransitionLayer>

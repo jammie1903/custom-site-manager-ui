@@ -6,8 +6,8 @@ import App from './App'
 import * as serviceWorker from './serviceWorker'
 import { ThemeProvider } from 'styled-components'
 import {createBrowserHistory} from 'history'
-import theme from './theme';
-import GlobalStyles from './globalStyles';
+import theme from './theme'
+import GlobalStyles from './globalStyles'
 
 export const history = createBrowserHistory()
 

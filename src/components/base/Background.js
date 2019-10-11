@@ -4,7 +4,8 @@ import Panel from './Panel'
 import Section from './Section';
 
 export default styled.div`
-  background: ${props => props.theme.colors.background[props.colorful ? 'colorful' : props.dark ? 'dark' : 'light']};
+  background: ${props => props.transparent ? 'transparent' : 
+    props.theme.colors.background[props.colorful ? 'colorful' : props.dark ? 'dark' : props.white ? 'white' : 'light']};
   position: absolute;
 
   ${props => props.unpadded ? '' : css`
