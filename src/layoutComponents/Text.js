@@ -1,8 +1,10 @@
-import React, {useState} from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import EditingContext from './EditingContext'
+import TextareaAutosize from 'react-textarea-autosize'
+import onPropertyUpdated from './onPropertyUpdated'
 
-const EditorInput = styled.input`
+const EditorInput = styled(TextareaAutosize)`
   display: block;
   width: 100%;
   color: inherit;
@@ -13,6 +15,7 @@ const EditorInput = styled.input`
   text-decoration: inherit;
   background: transparent;
   border: 1px solid transparent;
+  resize: none;
   margin: -1px;
   padding: 0;
   transition: border ${props => props.theme.animationLengths.short}ms;
@@ -29,14 +32,9 @@ const Editor = ({text, onPropertyUpdated}) => {
 }
 
 export default ({data}) => {
-  const [updated, setUpdated] = useState(0)
-
-  const onPropertyUpdated = (field, value) => {
-    data.properties[field] = value
-    setUpdated(updated+1)
-  }
+  const onUpdate = onPropertyUpdated(data)
 
   return <EditingContext.Consumer>
-    {({editing}) => editing ? <Editor onPropertyUpdated={onPropertyUpdated} {...data.properties}/> : <p>{data.properties.text}</p>}
+    {({editing}) => editing ? <Editor onPropertyUpdated={onUpdate} {...data.properties}/> : <p>{data.properties.text}</p>}
   </EditingContext.Consumer>
 }

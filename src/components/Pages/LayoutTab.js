@@ -22,9 +22,8 @@ export default ({pageId}) => {
   useEffect(() => {
     ProjectService.getPageData(pageId)
       .then(setPageData)
-  }, [pageId]);
+  }, [pageId])
 
-  console.log(Object.keys(fields))
   return <Container>
     <MenuBar>
       <label>
