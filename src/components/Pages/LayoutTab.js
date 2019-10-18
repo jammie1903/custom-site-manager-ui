@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import ProjectService from '../../services/ProjectService'
 import { PageLayout } from '../PageLayout'
 import EvaluatorService from '../../services/EvaluatorService'
+import PageService from '../../services/PageService';
 
 const Container = styled.div`
   width: 100%;
@@ -20,7 +21,7 @@ export default ({pageId}) => {
   const fields = !pageData ? EvaluatorService.placeholder : EvaluatorService.evaluate(pageData.fields)
   
   useEffect(() => {
-    ProjectService.getPageData(pageId)
+    PageService.get(pageId)
       .then(setPageData)
   }, [pageId])
 

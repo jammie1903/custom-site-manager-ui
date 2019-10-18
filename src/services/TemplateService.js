@@ -4,10 +4,11 @@ let _templates = null
 let allLoaded = false
 
 const defaultFields = [
-  {name: 'Title', type: 'text', mandatory: true},
+  {name: 'Name', type: 'url-segment', mandatory: true},
+  {name: 'Title', type: 'text', mandatory: true, defaultValue: '{{name}}'},
+  {name: 'Url', type: 'url-segment', mandatory: true, defaultValue: '{{name}}'},
   {name: 'Description', type: 'text', mandatory: false},
-  {name: 'Thumbnail', type: 'url', mandatory: false},
-  {name: 'Page Name', type: 'url-segment', mandatory: true, defaultValue: '{{title}}'}
+  {name: 'Thumbnail', type: 'url', mandatory: false}
 ]
 
 class TemplateService {

@@ -36,9 +36,40 @@ export default class ValidatedForm extends Component {
     this.setState({formErrors, responseMessage: null}, () => {
       const valid = Object.values(this.state.formErrors).every(error => !error)
       if (valid) {
-        this.ajaxSubmitForm()
+        if(typeof this.props.onAction === 'function') {
+          this.handleAction()
+        } else {
+          this.ajaxSubmitForm()
+        }
       }
     })
+  }
+
+  async handleAction () {
+    let data = this.state.formData
+    data = Object.keys(data)
+      .filter(key => !this.props.fields.find(f => f.name === key).transient)
+      .reduce((obj, key) => {
+        obj[key] = data[key]
+        return obj
+      }, {})
+
+    const actionResponse = this.props.onAction(data)
+    
+    let json, success
+    try {
+      const [response] = await Promise.all([
+        Promise.resolve(actionResponse), 
+        setStateAsync(this)({submitting: true})
+      ])
+      success = true
+      json = response
+    } catch(err) {
+      success = false
+      console.error(err)
+      json = {}
+    }
+    await this.handleResponse(success, json)
   }
 
   /**

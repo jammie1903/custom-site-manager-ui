@@ -1,10 +1,10 @@
 import React, {useState, useEffect} from 'react'
 import styled from 'styled-components'
-import ProjectService from '../../services/ProjectService'
 import EvaluatorService from '../../services/EvaluatorService'
 import TemplateService from '../../services/TemplateService'
 import { Input, Text, Background } from '../base';
 import InputContainer from '../ValidatedForm/InputContainer'
+import PageService from '../../services/PageService'
 
 const CalculatedValue = styled(Text)`
   margin: 0 ${props => props.theme.step * 2}px;
@@ -22,7 +22,7 @@ export default ({pageId}) => {
   }
 
   useEffect(() => {
-    ProjectService.getPageData(pageId)
+    PageService.get(pageId)
     .then(setPageData)
   }, [pageId]);
 

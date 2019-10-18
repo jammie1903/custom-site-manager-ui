@@ -4,6 +4,7 @@ import ProjectService from '../../services/ProjectService'
 import styled from 'styled-components'
 import PageTree from './PageTree'
 import Page from './Page';
+import PageService from '../../services/PageService';
 
 const Wrapper = styled.div`
   display: flex;
@@ -20,16 +21,19 @@ export default ({match, location}) => {
   const [pages, setPages] = useState(null)
 
   useEffect(() => {
-    Promise.all([ProjectService.get(projectId), ProjectService.getPages(projectId)])
-    .then(([x, y]) => {
-      setProject(x);
-      setPages(y)
-    })
+    ProjectService.get(projectId)
+      .then(setProject)
+
+    PageService.subscribeToTree(projectId, setPages)
+
+    return () => {
+      PageService.unsubscribeToTree(projectId, setPages)
+    }
   }, [projectId]);
 
   return <Background unpadded>
     <Wrapper>
-      <PageTree pages={pages} projectId={projectId}/>
+      <PageTree pages={pages} projectId={projectId} pageId={pageId}/>
       {!!pageId && <Page pageId={pageId}/>}
     </Wrapper>
   </Background>
