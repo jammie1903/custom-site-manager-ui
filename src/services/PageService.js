@@ -2,7 +2,7 @@ import ApiService from './ApiService'
 import { EventEmitter } from 'events';
 
 const emmiter = new EventEmitter()
-let treeCache = null
+const treeCache = {}
 const pageCache = {}
 
 // function recursiveSearch(treeItems, id) {
@@ -18,18 +18,25 @@ const pageCache = {}
 class PageService {
   async getTree(projectId) {
     try {
-      if(treeCache) return treeCache
+        if(treeCache[projectId]) return treeCache[projectId]
       const response = await ApiService.get(`page/project/tree/${projectId}`)
-      treeCache = (await response.json()).data
-      return treeCache
+      treeCache[projectId] = (await response.json()).data
+      return treeCache[projectId]
     } catch(e) {
       console.error(e)
       return null
     }
   }
 
-  refreshTree() {
-    treeCache = null
+  async refreshTree(projectId) {
+    treeCache[projectId] = null
+    Object.keys(pageCache).forEach(k => {
+      if(pageCache[k] && pageCache[k].projectId === projectId) {
+        delete pageCache[k]
+      }
+    })
+    const tree = await this.getTree(projectId)
+    emmiter.emit(projectId, tree)
   }
 
   async subscribeToTree(projectId, listener) {
@@ -63,9 +70,7 @@ class PageService {
     const persistedPage = (await response.json()).data
     pageCache[persistedPage.id] = persistedPage
 
-    this.refreshTree()
-    const tree = await this.getTree(projectId)
-    emmiter.emit(projectId, tree)
+    await this.refreshTree(projectId)
 
     return persistedPage
   }
@@ -83,8 +88,15 @@ class PageService {
     }
   }
 
-  async movePage(pageId, previousPage, parentPage) {
-    
+  async movePage(projectId, pageId, nextPage, parentPage) {
+    const response = await ApiService.put('page', {
+      id: pageId, 
+      nextSiblingId: nextPage,
+      parentId: parentPage
+    })
+    if(response.ok) {
+      await this.refreshTree(projectId)
+    }
   }
 }
 

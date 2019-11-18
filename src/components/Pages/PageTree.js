@@ -18,7 +18,7 @@ const PageTree = styled.div`
 const PageList = styled.ul`
   padding-left: ${props => props.theme.step * 4}px;
   ${props => props.firstLevel ? `
-    margin-right: ${props.theme.step * 8}px
+    margin-right: ${props.theme.step * 6}px
   ` : ''}
 `
 
@@ -27,8 +27,9 @@ const PageItemElement = styled.li`
   position: relative;
   > ${Link} {
     display: inline-block;
+    position: relative;
     > span {
-      padding: ${props => props.theme.step}px ${props => props.theme.step * 2}px;
+      padding: ${props => props.theme.step}px ${props => props.theme.step * 5}px ${props => props.theme.step}px ${props => props.theme.step * 2}px;
       display: inline-block;
     }
     ${props => props.selected ? css`
@@ -59,14 +60,24 @@ const DropTarget = styled.div`
     ${props => props.atEnd ? css`
       margin-bottom: ${props.theme.step * 3}px;
     ` : ``}
+    ${props => props.nextLevel ? css`
+      position: absolute;
+      right: 0;
+      top: calc(50% - .4em);
+      height: .8em;
+      width: .8em;
+      margin: 0;
+      padding: 0;
+    ` : ``}
+    
   ` : ``}
 `
 
 
-const PageItemDropTarget = ({page, parents, isDragging, atEnd, previousPage}) => {
+const PageItemDropTarget = ({page, parents, isDragging, atEnd, nextLevel, previousPage, projectId}) => {
   const [{ isOver, canDrop }, drop] = useDrop({
     accept: dragUtils.types.PAGE,
-    drop: ({id}) => PageService.movePage(id, !page ? null : page.id, parents[parents.length - 1]),
+    drop: ({id}) => PageService.movePage(projectId, id, !page ? null : page.id, parents[parents.length - 1] || null),
     canDrop: props => (!page || props.id !== page.id) && (!previousPage || previousPage.id !== props.id) && parents.indexOf(props.id) === -1,
     collect: monitor => ({
       isOver: !!monitor.isOver(),
@@ -74,7 +85,7 @@ const PageItemDropTarget = ({page, parents, isDragging, atEnd, previousPage}) =>
     }),
   })
 
-  return <DropTarget ref={drop} isOver={isOver} canDrop={canDrop} isDragging={isDragging} atEnd={atEnd}/>
+  return <DropTarget ref={drop} isOver={isOver} canDrop={canDrop} isDragging={isDragging} atEnd={atEnd} nextLevel={nextLevel}/>
 }
 
 
@@ -91,10 +102,11 @@ const PageItem = ({page, projectId, selectedPageId, location, parents, previousP
   
   return (
     <PageItemElement selected={page && selectedPageId === page.id} isDragging={isDragging} >
-      {!!parents.length && <PageItemDropTarget page={page} parents={parents} isDragging={isDragging} previousPage={previousPage}/>}
+      {!!parents.length && <PageItemDropTarget page={page} parents={parents} projectId={projectId} isDragging={isDragging} previousPage={previousPage}/>}
       {!!page && (
         <Link to={`/project/${projectId}/pages/${page.id}${location.search}`}>
           <span ref={drag}>{page.name}</span>
+          {(!page.children || !page.children.length) && <PageItemDropTarget parents={[...parents, page.id]} previousPage={null} projectId={projectId} nextLevel/>}
         </Link>
       )}
       {!!page && subtree(page.children, projectId, location, selectedPageId, false, [...parents, page.id])}
@@ -107,7 +119,7 @@ const subtree = (pages, projectId, location, selectedPageId, firstLevel = true, 
     {pages.map((page, index) => (
       <PageItem key={page.id} page={page} projectId={projectId} selectedPageId={selectedPageId} previousPage={pages[index - 1]} location={location} parents={parents} />
     ))}
-    <PageItemDropTarget parents={parents} previousPage={pages[pages.length - 1]} atEnd/>
+    {!firstLevel && <PageItemDropTarget parents={parents} previousPage={pages[pages.length - 1]} projectId={projectId} atEnd/>}
   </PageList>
 )
 
