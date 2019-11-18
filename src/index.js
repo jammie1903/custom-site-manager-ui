@@ -1,6 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Router } from 'react-router'
+import { DndProvider } from 'react-dnd'
+import HTML5Backend from 'react-dnd-html5-backend'
 import './index.css'
 import App from './App'
 import * as serviceWorker from './serviceWorker'
@@ -15,7 +17,9 @@ ReactDOM.render(
   <Router history={history}>
     <GlobalStyles />
     <ThemeProvider theme={theme}>
-      <App />
+      <DndProvider backend={HTML5Backend}>
+        <App />
+      </DndProvider>
     </ThemeProvider>
   </Router>,
   document.getElementById('root')

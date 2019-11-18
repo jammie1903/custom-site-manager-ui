@@ -28,7 +28,7 @@ class PageService {
     }
   }
 
-  refrshTree() {
+  refreshTree() {
     treeCache = null
   }
 
@@ -63,7 +63,7 @@ class PageService {
     const persistedPage = (await response.json()).data
     pageCache[persistedPage.id] = persistedPage
 
-    this.refrshTree()
+    this.refreshTree()
     const tree = await this.getTree(projectId)
     emmiter.emit(projectId, tree)
 
@@ -81,23 +81,10 @@ class PageService {
       console.error(e)
       return null
     }
+  }
 
-    // return {
-    //   template: 'default',
-    //   fields: {
-    //     title: 'Article ' + id,
-    //     summary: '{{title}} blah blah blah blah',
-    //     date: new Date(),
-    //     myCustomField: 'test'
-    //   },
-    //   layout: [
-    //     {type: 'Section', properties: { children: [
-    //       {type: 'Header', properties: {type: 'H2', text: '{{title}}'}},
-    //       {type: 'Text', properties: {text: 'this is some text'}}
-    //     ]}}
-    //   ],
-    //   customFields: [{name: 'My Custom Field', type: 'text'}],
-    // }
+  async movePage(pageId, previousPage, parentPage) {
+    
   }
 }
 
